@@ -1,4 +1,4 @@
-package hu.csdivad.xy.beans;
+package hu.csdivad.xy.bean;
 
 public class Admin extends User{
 
