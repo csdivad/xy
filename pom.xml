@@ -19,6 +19,7 @@
 		<jstl.version>1.2</jstl.version>
 		<beanutils.version>1.9.2</beanutils.version>
 		<maven.compiler.version>3.5.1</maven.compiler.version>
+		<maven.clean.version>3.0.0</maven.clean.version>
 		<java2ws.plugin.version>3.1.6</java2ws.plugin.version>
 		<wildfly.plugin.version>1.1.0.Alpha8</wildfly.plugin.version>
 		<primefaces.version>5.3</primefaces.version>
@@ -97,6 +98,32 @@
 			<artifactId>vaadin-themes</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
+		
+		<!-- SPRING -->
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 
 	</dependencies>
 
@@ -132,32 +159,48 @@
 
 	<build>
 		<finalName>xy</finalName>
-
 		<plugins>
-		
-			<!-- 
 			<plugin>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.version}</version>
 				<configuration>
 					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
-					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
+					<draftCompile>false</draftCompile>
+					<compileReport>false</compileReport>
+					<style>OBF</style>
+					<strict>true</strict>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
-							<goal>clean</goal>
-							<goal>resources</goal>
 							<goal>update-theme</goal>
 							<goal>update-widgetset</goal>
-							<goal>compile-theme</goal>
 							<goal>compile</goal>
+							<!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
+							<goal>compile-theme</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-			 -->
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${maven.clean.version}</version>
+				<!-- Clean up also any pre-compiled themes -->
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/webapp/VAADIN/themes</directory>
+							<includes>
+								<include>**/styles.css</include>
+								<include>**/styles.scss.cache</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

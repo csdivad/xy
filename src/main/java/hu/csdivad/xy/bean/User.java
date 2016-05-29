@@ -1,27 +1,50 @@
 package hu.csdivad.xy.bean;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
-	private static final long serialVersionUID = 1080067837587603564L;
-	
 	@Id
-	@Column(name = "username", length=45)
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String userName;
-	
-	@Column(name = "password", length=45, nullable = false)
+
+	@Column(name = "password", nullable = false, length = 60)
 	private String password;
-	
+
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<UserRole> userRole = new HashSet<UserRole>(0);
+
+	public User() {
+	}
+
+	public User(String userName, String password, boolean enabled) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.enabled = enabled;
+	}
+
+	public User(String userName, String password, boolean enabled, Set<UserRole> userRole) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.enabled = enabled;
+		this.userRole = userRole;
+	}
 
 	public String getUserName() {
 		return userName;
@@ -47,11 +70,17 @@ public class User implements Serializable{
 		this.enabled = enabled;
 	}
 
+	public Set<UserRole> getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(Set<UserRole> userRole) {
+		this.userRole = userRole;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", enabled=" + enabled + "]";
 	}
 
-	
-	
 }
