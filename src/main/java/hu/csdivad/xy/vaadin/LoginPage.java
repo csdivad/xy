@@ -2,11 +2,13 @@ package hu.csdivad.xy.vaadin;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
 import com.vaadin.annotations.Theme;
+import com.vaadin.cdi.CDIUI;
+import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -18,18 +20,16 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
-import hu.csdivad.xy.dao.impl.UserDaoImpl;
 
 @Theme("mytheme")
+@CDIUI("/vaadin")
 public class LoginPage extends UI {
 
 	private static final long serialVersionUID = 3347650577613856999L;
 
 	List<User> users;
 
-	// TODO dependency injection ?
-	@Autowired
-	@Qualifier("firstUserDaoImpl")
+	@Inject
 	UserDao userDao;
 
 	private final VerticalLayout vLayout = new VerticalLayout();
@@ -37,9 +37,16 @@ public class LoginPage extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		userDao = new UserDaoImpl();
+		//userDao = new UserDaoImpl();
 		this.addStyleName("backColorGrey");
 		vLayout.setSizeFull();
+		
+		
+		users = userDao.listAll();
+		
+		for(User u : users) {
+			vLayout.addComponent(new Label(u.getUsername()));
+		}
 		
 		Component loginForm = createLoginForm();
 		vLayout.addComponent(createMenuBar());
@@ -51,7 +58,7 @@ public class LoginPage extends UI {
 	}
 	
 	private Component createLoginForm() {
-		LoginForm loginForm = new LoginForm(userDao);
+		LoginView loginForm = new LoginView(userDao);
 		loginForm.setSizeUndefined();
 		
 		Component maintenanceMsg = createMainenanceMsg();

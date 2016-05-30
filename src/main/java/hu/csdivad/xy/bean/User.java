@@ -17,7 +17,7 @@ public class User implements Serializable {
 
 	@Id
 	@Column(name = "username", unique = true, nullable = false, length = 45)
-	private String userName;
+	private String username;
 
 	@Column(name = "password", nullable = false, length = 60)
 	private String password;
@@ -33,25 +33,25 @@ public class User implements Serializable {
 
 	public User(String userName, String password, boolean enabled) {
 		super();
-		this.userName = userName;
+		this.username = userName;
 		this.password = password;
 		this.enabled = enabled;
 	}
 
 	public User(String userName, String password, boolean enabled, Set<UserRole> userRole) {
 		super();
-		this.userName = userName;
+		this.username = userName;
 		this.password = password;
 		this.enabled = enabled;
 		this.userRole = userRole;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -80,7 +80,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", password=" + password + ", enabled=" + enabled + "]";
+		return "User [userName=" + username + ", password=" + password + ", enabled=" + enabled + "]";
 	}
 
 }

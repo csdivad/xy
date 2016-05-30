@@ -10,5 +10,6 @@
 		<property name="show_sql">true</property>
 
 		<mapping class="hu.csdivad.xy.bean.User"></mapping>
+		<mapping class="hu.csdivad.xy.bean.UserRole"></mapping>
 	</session-factory>
 </hibernate-configuration>

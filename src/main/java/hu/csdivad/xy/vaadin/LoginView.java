@@ -1,6 +1,8 @@
 package hu.csdivad.xy.vaadin;
 
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -9,11 +11,11 @@ import com.vaadin.ui.TextField;
 
 import hu.csdivad.xy.dao.UserDao;
 
-public class LoginForm extends FormLayout {
+public class LoginView extends FormLayout implements View {
 	
 	private final UserDao userDao;
 	
-	public LoginForm(UserDao userDao) {
+	public LoginView(UserDao userDao) {
 		this.userDao = userDao;
 		init();
 		//TODO Form form;
@@ -40,6 +42,12 @@ public class LoginForm extends FormLayout {
 		addComponent(password);
 		addComponent(safeBrowser);
 		addComponent(login); 
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
