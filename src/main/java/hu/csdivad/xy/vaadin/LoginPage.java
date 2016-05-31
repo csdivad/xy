@@ -2,14 +2,11 @@ package hu.csdivad.xy.vaadin;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import com.vaadin.annotations.Theme;
-import com.vaadin.cdi.CDIUI;
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
@@ -22,18 +19,15 @@ import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
 @Theme("mytheme")
-@CDIUI("/vaadin")
+@SpringUI(path="/vaadin")
+@SpringComponent
 public class LoginPage extends UI {
-
-	private static final long serialVersionUID = 3347650577613856999L;
-
-	List<User> users;
-
-	@Inject
-	UserDao userDao;
-
+//TODO: View + Navigation
+	
+	@Autowired
+	private UserDao userDao;
+	private List<User> users;
 	private final VerticalLayout vLayout = new VerticalLayout();
-	private final TabSheet tabSheet = new TabSheet();
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -48,7 +42,7 @@ public class LoginPage extends UI {
 			vLayout.addComponent(new Label(u.getUsername()));
 		}
 		
-		Component loginForm = createLoginForm();
+		Component loginForm = createLoginView();
 		vLayout.addComponent(createMenuBar());
 		vLayout.addComponent(loginForm);
 		vLayout.setExpandRatio(loginForm, 1);
@@ -57,19 +51,19 @@ public class LoginPage extends UI {
 
 	}
 	
-	private Component createLoginForm() {
-		LoginView loginForm = new LoginView(userDao);
-		loginForm.setSizeUndefined();
+	private Component createLoginView() {
+		LoginView loginView = new LoginView(userDao);
+		loginView.setSizeUndefined();
 		
 		Component maintenanceMsg = createMainenanceMsg();
 		maintenanceMsg.setSizeUndefined();
 		
 		GridLayout loginPageLayout = new GridLayout(1,2);
 		loginPageLayout.addComponent(maintenanceMsg, 0, 0);
-		loginPageLayout.addComponent(loginForm, 0, 1);
+		loginPageLayout.addComponent(loginView, 0, 1);
 		loginPageLayout.setWidth("100%");
 		loginPageLayout.setComponentAlignment(maintenanceMsg, Alignment.TOP_CENTER);
-		loginPageLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+		loginPageLayout.setComponentAlignment(loginView, Alignment.MIDDLE_CENTER);
 		
 		
 		return loginPageLayout;

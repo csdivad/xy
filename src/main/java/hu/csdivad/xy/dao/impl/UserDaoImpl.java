@@ -2,25 +2,22 @@ package hu.csdivad.xy.dao.impl;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
-@Default
-@ApplicationScoped
+@Repository
 public class UserDaoImpl implements UserDao {
 
-	@Inject
+	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override

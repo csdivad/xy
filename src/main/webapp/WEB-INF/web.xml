@@ -4,10 +4,10 @@
 	version="3.1">
 	
 	<!-- VAADIN -->
-	<!-- 
+	
 	<servlet>
 		<servlet-name>Vaadin</servlet-name>
-		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<servlet-class>com.vaadin.spring.server.SpringVaadinServlet</servlet-class>
 
 		<init-param>
 			<param-name>UI</param-name>
@@ -29,7 +29,7 @@
 		<servlet-name>Vaadin</servlet-name>
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
-	-->
+
 	<!-- END VAADIN -->
 	
 	<!-- SPRING -->
@@ -51,6 +51,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>	
 	-->
+	<!-- 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/app-context.xml</param-value>
+	</context-param>
+	-->
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<!-- END SPRING -->
 
 	<welcome-file-list>

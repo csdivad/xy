@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,7 +21,6 @@ import hu.csdivad.xy.dao.UserDao;
 public class XyUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	@Qualifier("firstUserDaoImpl")
 	private UserDao userDao;
 
 	@Override
