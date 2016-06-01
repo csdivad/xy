@@ -20,7 +20,7 @@ import hu.csdivad.xy.dao.UserDao;
 @Service("userDetailsService")
 public class XyUserDetailsService implements UserDetailsService {
 
-	@Autowired
+	@Autowired	
 	private UserDao userDao;
 
 	@Override

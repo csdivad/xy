@@ -6,14 +6,16 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util">
-	
+
 	<context:annotation-config />
-	<bean id="appConfig" class="hu.csdivad.xy.config.AppConfig" />
-	<bean id="userDaoImpl" class="hu.csdivad.xy.dao.impl.UserDaoImpl" />
-	<bean id="loginUI" class="hu.csdivad.xy.vaadin.LoginPage" />
+	<bean class="hu.csdivad.xy.config.AppConfig" scope="prototype" />
+	<bean class="hu.csdivad.xy.dao.impl.UserDaoImpl" scope="prototype" />
+	<bean class="hu.csdivad.xy.vaadin.MainUI" scope="prototype" /> 
+	<bean class="hu.csdivad.xy.vaadin.LoginView" scope="prototype" />
+	<bean class="hu.csdivad.xy.vaadin.SessionView" scope="prototype" />
 	
 	<!-- Elméletileg egyik elég -->
 	
-	<context:component-scan base-package="com.csdivad.xy" />
-	
+<!-- 	<context:component-scan base-package="com.csdivad.xy.*" /> -->
+
 </beans>

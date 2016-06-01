@@ -5,59 +5,35 @@
 	
 	<!-- VAADIN -->
 	
-	<servlet>
-		<servlet-name>Vaadin</servlet-name>
-		<servlet-class>com.vaadin.spring.server.SpringVaadinServlet</servlet-class>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>Vaadin</servlet-name> -->
+<!-- 		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class> -->
 
-		<init-param>
-			<param-name>UI</param-name>
-			<param-value>hu.csdivad.xy.vaadin.LoginPage</param-value>
-		</init-param>
+<!-- 		<init-param> -->
+<!-- 			<param-name>UI</param-name> -->
+<!-- 			<param-value>hu.csdivad.xy.vaadin.LoginPage</param-value> -->
+<!-- 		</init-param> -->
 
-		<init-param>
-			<param-name>widgetset</param-name>
-			<param-value>com.vaadin.DefaultWidgetSet</param-value>
-		</init-param>
-	</servlet>
+<!-- 		<init-param> -->
+<!-- 			<param-name>widgetset</param-name> -->
+<!-- 			<param-value>com.vaadin.DefaultWidgetSet</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</servlet> -->
 	
-	<servlet-mapping>
-		<servlet-name>Vaadin</servlet-name>
-		<url-pattern>/vaadin/*</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Vaadin</servlet-name> -->
+<!-- 		<url-pattern>/vaadin/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>Vaadin</servlet-name>
-		<url-pattern>/VAADIN/*</url-pattern>
-	</servlet-mapping>
-
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Vaadin</servlet-name> -->
+<!-- 		<url-pattern>/VAADIN/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+	
 	<!-- END VAADIN -->
 	
 	<!-- SPRING -->
-	<!-- 
-	<servlet>
-		<servlet-name>spring-web</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/spring-web-conf.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name></param-name>
-		</init-param>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>spring-web</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>	
-	-->
-	<!-- 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/app-context.xml</param-value>
-	</context-param>
-	-->
-	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
