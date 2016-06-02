@@ -26,6 +26,7 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> listAll() {
 		Session session = sessionFactory.openSession();
@@ -37,6 +38,7 @@ public class UserDaoImpl implements UserDao {
 		return users;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByName(String username) {
 		Session session = sessionFactory.openSession();

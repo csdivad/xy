@@ -7,10 +7,11 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 @Theme("mytheme")
-@SpringUI(path="/*")
+@SpringUI(path = "/*")
 public class MainUI extends UI {
 
 	@Autowired
@@ -19,10 +20,10 @@ public class MainUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		this.addStyleName("backColor");
+		this.setContent(new Label(viewProvider.getClass().getName()));;
 		
 		Navigator navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
-		navigator.navigateTo("login");
+		navigator.navigateTo("main");		
 	}
-
 }

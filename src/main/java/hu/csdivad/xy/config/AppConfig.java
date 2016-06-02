@@ -19,9 +19,14 @@ import hu.csdivad.xy.vaadin.MainUI;
 @EnableVaadin
 public class AppConfig {
 
-	@WebServlet(urlPatterns = { "/vaadin/*", "/VAADIN/*" })
+//	@WebServlet(urlPatterns = { "/login", "/VAADIN/*" })
+//	@VaadinServletConfiguration(productionMode = false, ui = LoginUI.class, widgetset = "com.vaadin.DefaultWidgetSet")
+//	public static class servlet extends SpringVaadinServlet {
+//	}
+	
+	@WebServlet(urlPatterns = { "/main/*", "/VAADIN/*" })
 	@VaadinServletConfiguration(productionMode = false, ui = MainUI.class, widgetset = "com.vaadin.DefaultWidgetSet")
-	public static class Servlet extends SpringVaadinServlet {
+	public static class servlet extends SpringVaadinServlet {
 	}
 
 	@Bean

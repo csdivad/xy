@@ -1,7 +1,6 @@
 package hu.csdivad.xy.spring;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ import hu.csdivad.xy.dao.UserDao;
 @Service("userDetailsService")
 public class XyUserDetailsService implements UserDetailsService {
 
-	@Autowired	
+	@Autowired
 	private UserDao userDao;
 
 	@Override
@@ -31,26 +30,20 @@ public class XyUserDetailsService implements UserDetailsService {
 		}
 
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
-
 		return buildUserForAuthentication(user, authorities);
-
 	}
 
 	private User buildUserForAuthentication(hu.csdivad.xy.bean.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);	
+		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
 	}
 
 	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+			authorities.add(new SimpleGrantedAuthority(userRole.getRole()));
 		}
-
-		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
-
-		return Result;
+		
+		return authorities;
 	}
 
 	public UserDao getUserDao() {
@@ -60,7 +53,5 @@ public class XyUserDetailsService implements UserDetailsService {
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	
-	
 
 }

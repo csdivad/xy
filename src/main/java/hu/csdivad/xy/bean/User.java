@@ -25,7 +25,7 @@ public class User implements Serializable {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {
