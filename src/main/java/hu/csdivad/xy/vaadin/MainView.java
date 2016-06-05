@@ -50,8 +50,8 @@ public class MainView extends VerticalLayout implements View {
 		addComponent(createUserInfoForm());
 		addComponent(logout);
 	}
-	
-	//@Transactional
+
+	// @Transactional
 	private Component createUserInfoForm() {
 		if (user == null) {
 			return new Label("User Error");
@@ -64,20 +64,20 @@ public class MainView extends VerticalLayout implements View {
 		if (user.getLastLogin() != null) {
 			userInfo.addComponent(new Label("Last login: " + formatter.format(user.getLastLogin().getTime())));
 		}
-		
-//		for(Account account : user.getAccounts()) {
-//			userInfo.addComponent(new Label(account.toString()));
-//		}
-		
+
+		// for(Account account : user.getAccounts()) {
+		// userInfo.addComponent(new Label(account.toString()));
+		// }
+
 		return userInfo;
 	}
 
 	private void logout() {
 		SecurityContextHolder.clearContext();
-		
+
 		for (UI ui : UI.getCurrent().getSession().getUIs())
 			ui.access(() -> {
-				ui.getPage().open("main", null); //.setLocation("/logout.html");
+				ui.getPage().open("main", null); // .setLocation("/logout.html");
 			});
 		UI.getCurrent().getSession().close();
 	}

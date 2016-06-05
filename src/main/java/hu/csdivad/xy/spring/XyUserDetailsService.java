@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import hu.csdivad.xy.dao.UserDao;
 
-@Service("userDetailsService")
+@Service("xyUserDetailsService")
 public class XyUserDetailsService implements UserDetailsService {
 
 	@Autowired

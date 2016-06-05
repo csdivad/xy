@@ -38,7 +38,7 @@ public class UserDetails implements Serializable {
 	@Column(name = "phone", length = 30, nullable = false)
 	private String phoneNumber;
 
-	@Column(name = "email", unique = true, nullable = false)
+	@Column(name = "email", length = 255, nullable = false)
 	private String email;
 
 	public User getUser() {

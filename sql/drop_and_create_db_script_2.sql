@@ -3,8 +3,8 @@ SET foreign_key_checks = 0;
 drop table if exists users;
 CREATE  TABLE users (
   username VARCHAR(45) NOT NULL,
-  password VARCHAR(60) NOT NULL,
-  enabled TINYINT NOT NULL DEFAULT 1,
+  password VARCHAR(60) CHARACTER SET 'latin1' COLLATE 'latin1_bin' NOT NULL,
+  enabled BIT NOT NULL DEFAULT 1,
   last_login DATETIME,
   PRIMARY KEY (username));
 
@@ -26,9 +26,8 @@ CREATE TABLE user_details (
   date_of_birth DATE NOT NULL,
   address varchar(200) NOT NULL,
   phone varchar(30) NOT NULL,
-  email varchar(256) NOT NULL,
+  email varchar(255) NOT NULL,
   PRIMARY KEY (username),
-  UNIQUE KEY (email),
   CONSTRAINT FOREIGN KEY (username) REFERENCES users (username));
 
 drop table if exists accounts;

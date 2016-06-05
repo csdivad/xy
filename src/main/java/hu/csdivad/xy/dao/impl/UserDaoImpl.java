@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
-
 //@Transactional
 @Repository("firstUserDaoImpl")
 public class UserDaoImpl implements UserDao {
@@ -38,26 +37,15 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByName(String username) {
-		
-		
-		
-		
 		Session session = sessionFactory.openSession();
-		User user = (User) session.createCriteria(User.class).add(Restrictions.idEq(username)).uniqueResult();
+		Transaction transaction = session.beginTransaction();
+		Criteria crit = session.createCriteria(User.class);
+		Criterion userCrit = Restrictions.idEq(username);
+		crit.add(userCrit);
+		User user = (User) crit.uniqueResult();
+		transaction.commit();
+		session.close();
 		return user;
-//		Transaction transaction = session.beginTransaction();
-//		Criteria crit = session.createCriteria(User.class);
-//		Criterion userCrit = Restrictions.like("username", username);
-//		crit.add(userCrit);
-//		List<User> users = crit.list();
-//		transaction.commit();
-//		session.close();
-//
-//		if (users.size() > 0) {
-//			return users.get(0);
-//		} else {
-//			return null;
-//		}
 	}
 
 	@Override

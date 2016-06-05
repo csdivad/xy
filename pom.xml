@@ -76,12 +76,12 @@
 			<version>${hibernate.version}</version>
 			<!-- <scope>provided</scope> -->
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.enterprise</groupId> -->
-<!-- 			<artifactId>cdi-api</artifactId> -->
-<!-- 			<version>${cdi.api.version}</version> -->
-<!-- 		</dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>javax.enterprise</groupId> -->
+		<!-- <artifactId>cdi-api</artifactId> -->
+		<!-- <version>${cdi.api.version}</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
@@ -96,7 +96,7 @@
 			<version>${mysql.version}</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<!-- VAADIN -->
 
 		<dependency>
@@ -116,12 +116,12 @@
 			<artifactId>vaadin-themes</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.vaadin</groupId> -->
-<!-- 			<artifactId>vaadin-cdi</artifactId> -->
-<!-- 			<version>1.0.3</version> -->
-<!-- 		</dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>com.vaadin</groupId> -->
+		<!-- <artifactId>vaadin-cdi</artifactId> -->
+		<!-- <version>1.0.3</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -134,7 +134,7 @@
 			<artifactId>loginform</artifactId>
 			<version>0.6.2</version>
 		</dependency>
-		
+
 		<!-- SPRING -->
 
 		<dependency>
