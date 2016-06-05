@@ -11,9 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
 @Table(name = "user_roles", uniqueConstraints = @UniqueConstraint(columnNames = { "role", "username" }))
-public class UserRole {
+public class UserRole implements GrantedAuthority {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +59,11 @@ public class UserRole {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@Override
+	public String getAuthority() {
+		return role;
 	}
 	
 	

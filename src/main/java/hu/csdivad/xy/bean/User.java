@@ -1,6 +1,8 @@
 package hu.csdivad.xy.bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,11 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Serializable, org.springframework.security.core.userdetails.UserDetails {
 
 	@Id
 	@Column(name = "username", unique = true, nullable = false, length = 45)
@@ -24,9 +31,19 @@ public class User implements Serializable {
 
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-	private Set<UserRole> userRole = new HashSet<UserRole>(0);
+	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	private UserDetails userDetails;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Account> accounts = new HashSet<Account>(0);
+
+	@Column(name = "last_login", nullable = true)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar lastLogin;
 
 	public User() {
 	}
@@ -43,7 +60,32 @@ public class User implements Serializable {
 		this.username = userName;
 		this.password = password;
 		this.enabled = enabled;
-		this.userRole = userRole;
+		this.userRoles = userRole;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userName=" + username + ", password=" + password + ", enabled=" + enabled + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return userRoles;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 
 	public String getUsername() {
@@ -70,17 +112,36 @@ public class User implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public Set<UserRole> getUserRole() {
-		return userRole;
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
 	}
 
-	public void setUserRole(Set<UserRole> userRole) {
-		this.userRole = userRole;
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userName=" + username + ", password=" + password + ", enabled=" + enabled + "]";
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+	public Calendar getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Calendar lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 }

@@ -10,21 +10,18 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
-@Repository
+
+//@Transactional
+@Repository("firstUserDaoImpl")
 public class UserDaoImpl implements UserDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	@Override
-	public User getUserById(Long id) {
-
-		return null;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -41,20 +38,55 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByName(String username) {
+		
+		
+		
+		
+		Session session = sessionFactory.openSession();
+		User user = (User) session.createCriteria(User.class).add(Restrictions.idEq(username)).uniqueResult();
+		return user;
+//		Transaction transaction = session.beginTransaction();
+//		Criteria crit = session.createCriteria(User.class);
+//		Criterion userCrit = Restrictions.like("username", username);
+//		crit.add(userCrit);
+//		List<User> users = crit.list();
+//		transaction.commit();
+//		session.close();
+//
+//		if (users.size() > 0) {
+//			return users.get(0);
+//		} else {
+//			return null;
+//		}
+	}
+
+	@Override
+	public void saveUser(User user) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		Criteria crit = session.createCriteria(User.class);
-		Criterion userCrit = Restrictions.like("username", username);
-		crit.add(userCrit);
-		List<User> users = crit.list();
+		session.save(user);
 		transaction.commit();
 		session.close();
 
-		if (users.size() > 0) {
-			return users.get(0);
-		} else {
-			return null;
-		}
+	}
+
+	@Override
+	public void updateUser(User user) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(user);
+		transaction.commit();
+		session.close();
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.delete(user);
+		transaction.commit();
+		session.close();
+
 	}
 
 	public SessionFactory getSessionFactory() {
