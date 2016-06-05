@@ -13,5 +13,6 @@
 		<mapping class="hu.csdivad.xy.bean.UserRole"></mapping>
 		<mapping class="hu.csdivad.xy.bean.UserDetails"></mapping>
 		<mapping class="hu.csdivad.xy.bean.Account"></mapping>
+		<mapping class="hu.csdivad.xy.bean.AccountTransaction"></mapping>
 	</session-factory>
 </hibernate-configuration>

@@ -1,6 +1,8 @@
 package hu.csdivad.xy.bean;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 public class Account implements Serializable {
 
 	@Id
@@ -27,6 +30,14 @@ public class Account implements Serializable {
 
 	@Column(name = "balance", nullable = false)
 	private int balance;
+
+	// TODO FetchType.LAZY
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "senderAccount")
+	private Set<AccountTransaction> outgoingTransactions = new HashSet<AccountTransaction>(0);
+	
+	// TODO FetchType.LAZY
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipientAccount")
+	private Set<AccountTransaction> incomingTransactions = new HashSet<AccountTransaction>(0);
 
 	public Integer getAccountId() {
 		return accountId;

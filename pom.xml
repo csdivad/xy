@@ -83,17 +83,24 @@
 		<!-- <version>${cdi.api.version}</version> -->
 		<!-- </dependency> -->
 
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>${mariadb.version}</version>
-			<scope>provided</scope>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.mariadb.jdbc</groupId> -->
+		<!-- <artifactId>mariadb-java-client</artifactId> -->
+		<!-- <version>${mariadb.version}</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>mysql</groupId> -->
+		<!-- <artifactId>mysql-connector-java</artifactId> -->
+		<!-- <version>${mysql.version}</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -198,7 +205,7 @@
 							<target>SCRIPT</target>
 							<type>BOTH</type>
 							<lineLength>120</lineLength>
-							<outputFile>${basedir}/sql/drop_and_create_db_script.sql</outputFile>
+							<outputFile>${basedir}/sql/HIB_drop_and_create_db_script.sql</outputFile>
 						</configuration>
 					</plugin>
 				</plugins>

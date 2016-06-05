@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
-//@Transactional
 @Repository("firstUserDaoImpl")
 public class UserDaoImpl implements UserDao {
 
@@ -34,7 +33,6 @@ public class UserDaoImpl implements UserDao {
 		return users;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByName(String username) {
 		Session session = sessionFactory.openSession();

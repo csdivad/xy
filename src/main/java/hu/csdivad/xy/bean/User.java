@@ -35,10 +35,10 @@ public class User implements Serializable, org.springframework.security.core.use
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
 	private UserDetails userDetails;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<Account> accounts = new HashSet<Account>(0);
 
 	@Column(name = "last_login", nullable = true)

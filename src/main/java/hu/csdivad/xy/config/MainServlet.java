@@ -21,7 +21,7 @@ import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 import hu.csdivad.xy.vaadin.MainUI;
 
-@WebServlet(urlPatterns = { "/main/*", "/VAADIN/*" })
+@WebServlet(urlPatterns = { "/bank/*", "/VAADIN/*" })
 @VaadinServletConfiguration(productionMode = false, ui = MainUI.class, widgetset = "com.vaadin.DefaultWidgetSet")
 public class MainServlet extends SpringVaadinServlet implements SessionInitListener, SessionDestroyListener {
 	private User user;

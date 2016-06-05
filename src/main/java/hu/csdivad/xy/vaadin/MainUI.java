@@ -1,7 +1,5 @@
 package hu.csdivad.xy.vaadin;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -9,37 +7,66 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.ClientConnector.DetachListener;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.UI;
-
-import hu.csdivad.xy.bean.User;
-import hu.csdivad.xy.dao.UserDao;
+import com.vaadin.ui.VerticalLayout;
 
 @Theme("mytheme")
-@SpringUI(path = "/*")
-@UIScope
+@SpringUI(path = "/")
 @PreserveOnRefresh
 public class MainUI extends UI {
 
 	@Autowired
 	private SpringViewProvider viewProvider;
-	@Autowired
-	private UserDao userDao;
-	private Calendar loginTime = Calendar.getInstance();
-	private User user;
+	private VerticalLayout pageLayout = new VerticalLayout();
+	private Navigator navigator;
 
 	@Override
 	protected void init(VaadinRequest request) {
 		addStyleName("backColor");
-		setContent(new Label(viewProvider.getClass().getName()));
+		setContent(pageLayout);
 
-		Navigator navigator = new Navigator(this, this);
+		CssLayout contentLayout = new CssLayout();
+		pageLayout.addComponents(createMenuBar(), contentLayout);
+		navigator = new Navigator(this, contentLayout);
 		navigator.addProvider(viewProvider);
-		navigator.navigateTo("main");
+		navigator.navigateTo(AccountDetailsView.VIEW_NAME);
 	}
 
+	private Component createMenuBar() {
+		HorizontalLayout menuLayout = new HorizontalLayout();
+		menuLayout.setWidth("100%");
+
+		MenuBar leftMenu = new MenuBar();
+		leftMenu.setWidth("100%");
+		leftMenu.setHeightUndefined();
+
+		MenuBar.MenuItem accountMenu = leftMenu.addItem("Account", null);
+		accountMenu.addItem("Account details", (item) -> navigator.navigateTo(AccountDetailsView.VIEW_NAME));
+		accountMenu.addItem("Transaction history", null);
+
+		MenuBar rightMenu = new MenuBar();
+		rightMenu.addItem("Logout", (item) -> logout());
+
+		rightMenu.setSizeUndefined();
+		menuLayout.addComponents(leftMenu, rightMenu);
+		menuLayout.setExpandRatio(leftMenu, 1.0f);
+		return menuLayout;
+	}
+
+	private void logout() {
+		SecurityContextHolder.clearContext();
+
+		for (UI ui : UI.getCurrent().getSession().getUIs())
+			ui.access(() -> {
+				ui.getPage().open("", null); // .setLocation("/logout.html");
+			});
+		UI.getCurrent().getSession().close();
+	}
 }
