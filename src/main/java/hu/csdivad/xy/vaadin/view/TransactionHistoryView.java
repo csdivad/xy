@@ -1,4 +1,4 @@
-package hu.csdivad.xy.vaadin;
+package hu.csdivad.xy.vaadin.view;
 
 import java.text.SimpleDateFormat;
 

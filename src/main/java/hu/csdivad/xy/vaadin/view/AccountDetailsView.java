@@ -1,4 +1,4 @@
-package hu.csdivad.xy.vaadin;
+package hu.csdivad.xy.vaadin.view;
 
 import java.text.SimpleDateFormat;
 
@@ -22,7 +22,7 @@ import com.vaadin.ui.Label;
 //TODO VerticalLayout vs CustomComponent+setCompositonRoot, if not new class vs method?
 @SpringView(name = AccountDetailsView.VIEW_NAME)
 public class AccountDetailsView extends VerticalLayout implements View {
-	public static final String VIEW_NAME = "account-view";
+	public static final String VIEW_NAME = "account-details";
 	
 	@Autowired
 	private UserDao userDao;

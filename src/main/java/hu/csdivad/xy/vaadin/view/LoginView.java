@@ -1,10 +1,15 @@
-package hu.csdivad.xy.vaadin;
+package hu.csdivad.xy.vaadin.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.risto.formsender.FormSender;
+import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.ejt.vaadin.loginform.LoginForm;
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -16,7 +21,9 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import hu.csdivad.xy.dao.UserDao;
 
-public class LoginView extends LoginForm {
+@SpringView(name = LoginView.VIEW_NAME)
+public class LoginView extends LoginForm implements View {
+	public static final String VIEW_NAME = "login";
 
 	@Autowired
 	private UserDao userDao;
@@ -24,6 +31,7 @@ public class LoginView extends LoginForm {
 
 	@Override
 	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
+		setSizeFull();
 		VerticalLayout pageLayout = new VerticalLayout();
 		pageLayout.setWidth("100%");
 		Component loginDetailsForm = createLoginDetailsForm(userNameField, passwordField, loginButton);
@@ -38,6 +46,16 @@ public class LoginView extends LoginForm {
 	@Override
 	protected void login(String userName, String password) {
 		super.login(userName, password);
+
+		FormSender sender = new FormSender();
+		sender.setFormAction("www.targeturl.com/foobar");
+		sender.setFormMethod(Method.GET);
+		sender.addValue("name", "qwe");
+		sender.addValue("password", "qwe");
+		sender.extend(getUI());
+		sender.submit();
+		System.out.println(getUI());
+
 	}
 
 	private Component createLoginDetailsForm(TextField username, PasswordField password, Button login) {
@@ -73,6 +91,10 @@ public class LoginView extends LoginForm {
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
 	}
 
 }

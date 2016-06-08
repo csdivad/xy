@@ -16,12 +16,12 @@
 	<!-- </http> -->
 
 	<http auto-config="true">
-		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/netbank**" access="hasRole('ROLE_USER')" />
 
 		<!-- <form-login login-page="/login" authentication-failure-url="/login?error" -->
 		<!-- authentication-success-forward-url="/main" /> -->
 
-		 <form-login default-target-url="/bank" />
+		<form-login default-target-url="/bank" />
 
 		<csrf disabled="true" />
 		<!-- vaadin has csrf protection, the first page is not protected, but that 

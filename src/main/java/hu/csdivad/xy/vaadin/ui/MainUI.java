@@ -1,4 +1,4 @@
-package hu.csdivad.xy.vaadin;
+package hu.csdivad.xy.vaadin.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,12 +13,13 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.MenuItem;
+import hu.csdivad.xy.vaadin.view.AccountDetailsView;
+
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Theme("mytheme")
-@SpringUI(path = "/")
+@SpringUI(path = "/netbank")
 @PreserveOnRefresh
 public class MainUI extends UI {
 
@@ -69,4 +70,5 @@ public class MainUI extends UI {
 			});
 		UI.getCurrent().getSession().close();
 	}
+
 }
