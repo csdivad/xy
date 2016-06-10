@@ -14,6 +14,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import hu.csdivad.xy.vaadin.view.AccountDetailsView;
+import hu.csdivad.xy.vaadin.view.TransactionHistoryView;
 
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -50,7 +51,7 @@ public class MainUI extends UI {
 
 		MenuBar.MenuItem accountMenu = leftMenu.addItem("Account", null);
 		accountMenu.addItem("Account details", (item) -> navigator.navigateTo(AccountDetailsView.VIEW_NAME));
-		accountMenu.addItem("Transaction history", null);
+		accountMenu.addItem("Transaction history", (item) -> navigator.navigateTo(TransactionHistoryView.VIEW_NAME));
 
 		MenuBar rightMenu = new MenuBar();
 		rightMenu.addItem("Logout", (item) -> logout());

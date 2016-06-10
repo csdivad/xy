@@ -1,10 +1,13 @@
 package hu.csdivad.xy.vaadin.view;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.ejt.vaadin.loginform.LoginForm;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -28,6 +31,7 @@ public class LoginView extends LoginForm implements View {
 	@Autowired
 	private UserDao userDao;
 	private CheckBox safeBrowser = new CheckBox("This is a private computer");
+	private TextField accountNumber = new TextField("Account number");
 
 	@Override
 	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
@@ -48,13 +52,13 @@ public class LoginView extends LoginForm implements View {
 		super.login(userName, password);
 
 		FormSender sender = new FormSender();
-		sender.setFormAction("www.targeturl.com/foobar");
-		sender.setFormMethod(Method.GET);
-		sender.addValue("name", "qwe");
-		sender.addValue("password", "qwe");
+		sender.setFormAction("/xy/j_spring_security_check");
+		sender.setFormMethod(Method.POST);
+		sender.addValue("username", userName);
+		sender.addValue("password", password);
+		sender.setFormTarget("_top");
 		sender.extend(getUI());
 		sender.submit();
-		System.out.println(getUI());
 
 	}
 
@@ -65,24 +69,29 @@ public class LoginView extends LoginForm implements View {
 		loginDetailsForm.setSizeUndefined();
 
 		username.setIcon(FontAwesome.USER);
-		username.setRequired(true);
 		username.addValidator(new NullValidator("Missing username", false));
 
 		password.setIcon(FontAwesome.LOCK);
-		password.setRequired(true);
 		password.addValidator(new NullValidator("Missing password", false));
-
+		
+		accountNumber.addValidator(new NullValidator("Missing account number", false));
+		
 		loginDetailsForm.addComponent(username);
 		loginDetailsForm.addComponent(password);
+		loginDetailsForm.addComponent(accountNumber);
 		loginDetailsForm.addComponent(safeBrowser);
 		loginDetailsForm.addComponent(login);
 		return loginDetailsForm;
 	}
 
 	private Component createMainenanceMsg() {
-		Label msg = new Label("Maintenance msgs");
-		msg.setSizeUndefined();
-		return msg;
+		VerticalLayout layout = new VerticalLayout();
+		Object springException = getUI().getSession().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+		if (springException instanceof org.springframework.security.authentication.BadCredentialsException) {
+			layout.addComponent(new Label(Objects.toString("Bad credentials!")));
+		}
+		layout.setSizeUndefined();
+		return layout;
 	}
 
 	public UserDao getUserDao() {

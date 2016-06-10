@@ -55,8 +55,6 @@ public class AccountDetailsView extends VerticalLayout implements View {
 			userInfo.addComponent(new Label("Last login: " + formatter.format(user.getLastLogin().getTime())));
 		}
 		
-		
-		Hibernate.initialize(user);
 		for (Account account : user.getAccounts()) {
 			userInfo.addComponent(new Label(account.toString()));
 		}
