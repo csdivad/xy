@@ -9,20 +9,20 @@
         http://www.springframework.org/schema/context/spring-context.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util">
 
-	<!-- <context:annotation-config /> -->
-	<!-- <bean class="hu.csdivad.xy.vaadin.servlet.MainServlet" scope="prototype" /> -->
-	<!-- <bean class="hu.csdivad.xy.config.AppConfig" scope="singleton" /> -->
-	<!-- <bean class="hu.csdivad.xy.dao.impl.UserDaoImpl" scope="prototype" 
-		id="firstUserDaoImpl" /> -->
-	<!-- <bean class="hu.csdivad.xy.spring.XyUserDetailsService" scope="singleton" 
-		id="xyUserDetailsService" /> -->
-	<!-- <bean class="hu.csdivad.xy.vaadin.view.LoginView" scope="prototype" /> -->
-	<!-- <bean class="hu.csdivad.xy.vaadin.ui.MainUI" scope="prototype" /> -->
-	<!-- <bean class="hu.csdivad.xy.vaadin.MainView" scope="prototype" /> -->
-
-	<!-- <bean class="hu.csdivad.xy.config.AppConfig$Servlet" scope="prototype" 
-		/> -->
-
 	<context:component-scan base-package="hu.csdivad.xy" />
+
+	<bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<bean id="xyUserDetailsService" class="hu.csdivad.xy.spring.security.XyUserDetailsService"
+		scope="singleton" />
+
+	<bean id="xyAuthencticationProvider" class="hu.csdivad.xy.spring.security.XyAuthenticationProvider">
+		<property name="passwordEncoder" ref="encoder" />
+		<property name="userDetailsService" ref="xyUserDetailsService" />
+	</bean>
+
+	<bean id="xyWebAuthenticationDetailsSource" class="hu.csdivad.xy.spring.security.XyWebAuthenticationDetailsSource" />
+
 
 </beans>

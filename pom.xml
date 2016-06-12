@@ -77,31 +77,17 @@
 			<!-- <scope>provided</scope> -->
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>javax.enterprise</groupId> -->
-		<!-- <artifactId>cdi-api</artifactId> -->
-		<!-- <version>${cdi.api.version}</version> -->
-		<!-- </dependency> -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.mariadb.jdbc</groupId> -->
-		<!-- <artifactId>mariadb-java-client</artifactId> -->
-		<!-- <version>${mariadb.version}</version> -->
-		<!-- <scope>provided</scope> -->
-		<!-- </dependency> -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>mysql</groupId> -->
-		<!-- <artifactId>mysql-connector-java</artifactId> -->
-		<!-- <version>${mysql.version}</version> -->
-		<!-- <scope>provided</scope> -->
-		<!-- </dependency> -->
-
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.4</version>
 		</dependency>
 
 		<!-- VAADIN -->

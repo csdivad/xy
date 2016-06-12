@@ -1,4 +1,4 @@
-package hu.csdivad.xy.spring;
+package hu.csdivad.xy.spring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import hu.csdivad.xy.dao.UserDao;
 
-@Service("xyUserDetailsService")
 public class XyUserDetailsService implements UserDetailsService {
 
 	@Autowired
@@ -20,10 +19,10 @@ public class XyUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("Username not found: " + username);
 		}
-
+		
 		return user;
 	}
-
+	
 	public UserDao getUserDao() {
 		return userDao;
 	}

@@ -44,7 +44,8 @@ CREATE TABLE transactions (
   transaction_id int(11) NOT NULL AUTO_INCREMENT,
   sender_account_id int(11) NOT NULL,
   recipient_account_id int(11) NOT NULL,
-  transaction_time DATETIME,
+  transaction_time DATETIME NOT NULL,
+  amount int(11) NOT NULL,
   PRIMARY KEY (transaction_id),
   CONSTRAINT FOREIGN KEY (sender_account_id) REFERENCES accounts (account_id),
   CONSTRAINT FOREIGN KEY (recipient_account_id) REFERENCES accounts (account_id));

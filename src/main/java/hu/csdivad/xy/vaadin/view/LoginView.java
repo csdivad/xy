@@ -7,7 +7,6 @@ import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
 import com.ejt.vaadin.loginform.LoginForm;
-import com.vaadin.data.Property;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -34,7 +33,7 @@ public class LoginView extends LoginForm implements View {
 	private TextField accountNumber = new TextField("Account number");
 
 	@Override
-	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
+	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {	
 		setSizeFull();
 		VerticalLayout pageLayout = new VerticalLayout();
 		pageLayout.setWidth("100%");
@@ -56,6 +55,7 @@ public class LoginView extends LoginForm implements View {
 		sender.setFormMethod(Method.POST);
 		sender.addValue("username", userName);
 		sender.addValue("password", password);
+		sender.addValue("account-number", accountNumber.getValue());
 		sender.setFormTarget("_top");
 		sender.extend(getUI());
 		sender.submit();
@@ -70,10 +70,9 @@ public class LoginView extends LoginForm implements View {
 
 		username.setIcon(FontAwesome.USER);
 		username.addValidator(new NullValidator("Missing username", false));
-
 		password.setIcon(FontAwesome.LOCK);
 		password.addValidator(new NullValidator("Missing password", false));
-		
+		accountNumber.setIcon(FontAwesome.BOOK);
 		accountNumber.addValidator(new NullValidator("Missing account number", false));
 		
 		loginDetailsForm.addComponent(username);

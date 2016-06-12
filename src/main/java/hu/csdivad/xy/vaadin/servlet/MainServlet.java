@@ -21,10 +21,9 @@
 //import hu.csdivad.xy.dao.UserDao;
 //import hu.csdivad.xy.vaadin.ui.MainUI;
 //
-//@WebServlet(urlPatterns = { "/bank/*", "/VAADIN/*" })
-//@VaadinServletConfiguration(productionMode = false, ui = { MainUI.class }, widgetset = "hu.csdivad.xy.vaadin.XyWidgetSet")
+//@WebServlet(urlPatterns = { "/vaadin/*", "/VAADIN/*" })
+//@VaadinServletConfiguration(productionMode = false, widgetset = "hu.csdivad.xy.vaadin.XyWidgetSet", ui = MainUI.class)
 //public class MainServlet extends SpringVaadinServlet implements SessionInitListener, SessionDestroyListener {
-//	private User user;
 //	private Calendar sessionCreationTime;
 //
 //	@Override
@@ -36,18 +35,19 @@
 //
 //	@Override
 //	public void sessionInit(SessionInitEvent event) throws ServiceException {
-//		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		sessionCreationTime = Calendar.getInstance();
 //	}
 //
 //	/*
 //	 * Updates lastLogin property of the user. Is there a better way for this?
-//	 * This class doesn't seem like a spring managed bean, so no dep inj. Is it
+//	 * This class doesn't seem like a spring managed bean, so no di. Is it
 //	 * possible to handle end of session event from inside a UI?
 //	 */
 //	@Override
 //	public void sessionDestroy(SessionDestroyEvent event) {
-//		if (user != null) {
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof User) {
+//			User user = (User) principal;
 //			ApplicationContext applicationContext = WebApplicationContextUtils
 //					.getWebApplicationContext(getServletContext());
 //			UserDao userDao = applicationContext.getBean(UserDao.class);

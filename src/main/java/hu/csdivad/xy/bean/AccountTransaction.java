@@ -18,23 +18,26 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "transactions")
 public class AccountTransaction implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "transaction_id", unique = true, nullable = false)
 	private int transactionId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sender_account_id", nullable = false)
 	private Account senderAccount;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "recipient_account_id", nullable = false)
 	private Account recipientAccount;
-	
-	@Column(name = "transaction_time", nullable = true)
+
+	@Column(name = "transaction_time", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar transactionTime;
+
+	@Column(name = "amount", nullable = false)
+	private int amount;
 
 	public int getTransactionId() {
 		return transactionId;
@@ -67,7 +70,47 @@ public class AccountTransaction implements Serializable {
 	public void setTransactionTime(Calendar transactionTime) {
 		this.transactionTime = transactionTime;
 	}
-	
-	
-	
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((recipientAccount == null) ? 0 : recipientAccount.hashCode());
+		result = prime * result + ((senderAccount == null) ? 0 : senderAccount.hashCode());
+		result = prime * result + transactionId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AccountTransaction other = (AccountTransaction) obj;
+		if (recipientAccount == null) {
+			if (other.recipientAccount != null)
+				return false;
+		} else if (!recipientAccount.equals(other.recipientAccount))
+			return false;
+		if (senderAccount == null) {
+			if (other.senderAccount != null)
+				return false;
+		} else if (!senderAccount.equals(other.senderAccount))
+			return false;
+		if (transactionId != other.transactionId)
+			return false;
+		return true;
+	}
+
 }

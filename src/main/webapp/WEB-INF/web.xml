@@ -8,7 +8,7 @@
 	<servlet>
 		<servlet-name>Vaadin</servlet-name>
 		<servlet-class>com.vaadin.spring.server.SpringVaadinServlet</servlet-class>
-		
+
 		<init-param>
 			<param-name>widgetset</param-name>
 			<param-value>hu.csdivad.xy.vaadin.XyWidgetSet</param-value>
@@ -19,8 +19,8 @@
 		<servlet-name>Vaadin</servlet-name>
 		<url-pattern>/vaadin/*</url-pattern>
 	</servlet-mapping>
-	
-		<servlet-mapping>
+
+	<servlet-mapping>
 		<servlet-name>Vaadin</servlet-name>
 		<url-pattern>/VAADIN/*</url-pattern>
 	</servlet-mapping>
@@ -52,6 +52,18 @@
 	</filter-mapping>
 
 	<!-- END SPRING -->
+
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

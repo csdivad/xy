@@ -34,10 +34,18 @@ public class Account implements Serializable {
 	// TODO FetchType.LAZY
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "senderAccount")
 	private Set<AccountTransaction> outgoingTransactions = new HashSet<AccountTransaction>(0);
-	
+
 	// TODO FetchType.LAZY
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipientAccount")
 	private Set<AccountTransaction> incomingTransactions = new HashSet<AccountTransaction>(0);
+
+	public Account() {
+	}
+
+	public Account(Integer accountId) {
+		super();
+		this.accountId = accountId;
+	}
 
 	public Integer getAccountId() {
 		return accountId;
@@ -63,9 +71,50 @@ public class Account implements Serializable {
 		this.balance = balance;
 	}
 
+	public Set<AccountTransaction> getOutgoingTransactions() {
+		return outgoingTransactions;
+	}
+
+	public void setOutgoingTransactions(Set<AccountTransaction> outgoingTransactions) {
+		this.outgoingTransactions = outgoingTransactions;
+	}
+
+	public Set<AccountTransaction> getIncomingTransactions() {
+		return incomingTransactions;
+	}
+
+	public void setIncomingTransactions(Set<AccountTransaction> incomingTransactions) {
+		this.incomingTransactions = incomingTransactions;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", balance=" + balance + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountId == null) ? 0 : accountId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (accountId == null) {
+			if (other.accountId != null)
+				return false;
+		} else if (!accountId.equals(other.accountId))
+			return false;
+		return true;
 	}
 
 }

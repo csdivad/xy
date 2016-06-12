@@ -12,7 +12,8 @@
 		<!-- authentication-success-forward-url="/main" /> -->
 
 		<form-login default-target-url="/vaadin/netbank"
-			login-page="/vaadin/login" login-processing-url="/j_spring_security_check" />
+			login-page="/vaadin/login" login-processing-url="/j_spring_security_check"
+			authentication-details-source-ref="xyWebAuthenticationDetailsSource" />
 
 		<csrf disabled="true" />
 		<!-- vaadin has csrf protection, the first page is not protected, but that 
@@ -21,9 +22,7 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider user-service-ref="xyUserDetailsService">
-			<password-encoder hash="bcrypt" />
-		</authentication-provider>
+		<authentication-provider ref="xyAuthencticationProvider" />
 	</authentication-manager>
 
 </beans:beans>

@@ -97,6 +97,4 @@ public class UserDetails implements Serializable {
 		this.birthDate = birthDate;
 	}
 
-	
-
 }

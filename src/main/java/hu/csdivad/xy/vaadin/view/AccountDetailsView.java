@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 
 import javax.annotation.PostConstruct;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.vaadin.navigator.View;
@@ -19,26 +18,25 @@ import hu.csdivad.xy.dao.UserDao;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-//TODO VerticalLayout vs CustomComponent+setCompositonRoot, if not new class vs method?
+//TODO VerticalLayout vs CustomComponent+setCompositonRoot
 @SpringView(name = AccountDetailsView.VIEW_NAME)
 public class AccountDetailsView extends VerticalLayout implements View {
 	public static final String VIEW_NAME = "account-details";
 	
 	@Autowired
 	private UserDao userDao;
-	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+	@Autowired
+	private Account loggedInAccount;
+	@Autowired
 	private User user;
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public AccountDetailsView() {
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-	}
-
-	@PostConstruct
-	private void init() {
-		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		removeAllComponents();
 		addComponent(createUserInfoForm());
 	}
 
@@ -55,9 +53,7 @@ public class AccountDetailsView extends VerticalLayout implements View {
 			userInfo.addComponent(new Label("Last login: " + formatter.format(user.getLastLogin().getTime())));
 		}
 		
-		for (Account account : user.getAccounts()) {
-			userInfo.addComponent(new Label(account.toString()));
-		}
+		userInfo.addComponent(new Label("Account balance: " + loggedInAccount.getBalance()));
 
 		return userInfo;
 	}
