@@ -11,78 +11,64 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import hu.csdivad.xy.bean.Account;
-import hu.csdivad.xy.bean.User;
-import hu.csdivad.xy.dao.AccountDao;
+import hu.csdivad.xy.bean.AccountTransaction;
+import hu.csdivad.xy.dao.AccountTransactionDao;
 
-@Repository("firstAccountDaoImpl")
-public class AccountDaoImpl implements AccountDao {
-	
+@Repository("firstAccountTransactionDaoImpl")
+public class AccountTransactionDaoImpl implements AccountTransactionDao {
+
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	@Override
-	public List<Account> listAll() {
-		Session session = sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		Criteria crit = session.createCriteria(Account.class);
-		List<Account> accounts = crit.list();
-		transaction.commit();
-		session.close();
-		return accounts;
-	}
 	
 	@Override
-	public List<Account> listAccountsByUser(User user) {
+	public List<AccountTransaction> listAll() {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		Criteria crit = session.createCriteria(Account.class);
-		Criterion userCrit = Restrictions.eq("username", user);
-		crit.add(userCrit);
-		List<Account> accounts = crit.list();
+		Criteria crit = session.createCriteria(AccountTransaction.class);
+		List<AccountTransaction> accountTransactions = crit.list();
 		transaction.commit();
 		session.close();
-		return accounts;
+		return accountTransactions;
 	}
 
 	@Override
-	public Account findAccountById(int id) {
+	public AccountTransaction findTransactionById(int id) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		Criteria crit = session.createCriteria(Account.class);
+		Criteria crit = session.createCriteria(AccountTransaction.class);
 		Criterion userCrit = Restrictions.idEq(id);
 		crit.add(userCrit);
-		Account account = (Account)crit.uniqueResult();
+		AccountTransaction accountTransaction = (AccountTransaction)crit.uniqueResult();
 		transaction.commit();
 		session.close();
-		return account;
+		return accountTransaction;
 	}
 
 	@Override
-	public void updateAccount(Account account) {
+	public void updateTransaction(AccountTransaction accountTransaction) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		session.update(account);
+		session.update(accountTransaction);
 		transaction.commit();
 		session.close();
 	}
 
 	@Override
-	public void saveUser(Account account) {
+	public void saveTransaction(AccountTransaction accountTransaction) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		session.save(account);
+		session.save(accountTransaction);
 		transaction.commit();
-		session.close();		
+		session.close();
 	}
 
 	@Override
-	public void deleteUser(Account account) {
+	public void deleteTransaction(AccountTransaction accountTransaction) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		session.delete(account);
+		session.delete(accountTransaction);
 		transaction.commit();
-		session.close();		
+		session.close();
 	}
 
 }

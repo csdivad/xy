@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import hu.csdivad.xy.bean.Account;
 import hu.csdivad.xy.bean.User;
-import hu.csdivad.xy.spring.security.exception.AccountNotBoundToUserException;
+import hu.csdivad.xy.spring.security.exception.AccountNotBelongToUserException;
 import hu.csdivad.xy.spring.security.exception.MissingAccountNumberException;
 
 public class XyAuthenticationProvider extends DaoAuthenticationProvider {
@@ -25,7 +25,7 @@ public class XyAuthenticationProvider extends DaoAuthenticationProvider {
 				throw new MissingAccountNumberException("Missing account number");
 			}
 			if(!((User) userDetails).getAccounts().contains(new Account(enteredAccountNumber))) {
-				throw new AccountNotBoundToUserException("User does not have account: " + enteredAccountNumber);
+				throw new AccountNotBelongToUserException("User does not have account: " + enteredAccountNumber);
 			}
 		} else {
 			throw new InternalAuthenticationServiceException("Something wrong");

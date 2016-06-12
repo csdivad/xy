@@ -15,14 +15,14 @@ import hu.csdivad.xy.bean.Account;
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-//TODO VerticalLayout vs CustomComponent+setCompositonRoot
 @SpringView(name = AccountDetailsView.VIEW_NAME)
 public class AccountDetailsView extends VerticalLayout implements View {
 	public static final String VIEW_NAME = "account-details";
-	
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -32,6 +32,8 @@ public class AccountDetailsView extends VerticalLayout implements View {
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public AccountDetailsView() {
+		setSizeFull();
+		setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 	}
 
 	@Override
@@ -44,26 +46,26 @@ public class AccountDetailsView extends VerticalLayout implements View {
 		if (user == null || user.getUserDetails() == null) {
 			return new Label("User Error");
 		}
-		VerticalLayout userInfo = new VerticalLayout();
+		VerticalLayout userInfoLayout = new VerticalLayout();
+		userInfoLayout.setSizeFull();
+		userInfoLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-		userInfo.addComponent(new Label("Username: " + user.getUsername()));
-		userInfo.addComponent(new Label(
-				"Name: " + user.getUserDetails().getGivenName() + " " + user.getUserDetails().getFamilyName()));
+		Label usernameLbl = new Label("Ügyfélazonosító: " + user.getUsername());
+		Label nameLbl = new Label(
+				"Név: " + user.getUserDetails().getGivenName() + " " + user.getUserDetails().getFamilyName());
+		Label balanceLbl = new Label("Egyenleg: " + loggedInAccount.getBalance());
+		usernameLbl.setSizeUndefined();
+		nameLbl.setSizeUndefined();
+		balanceLbl.setSizeUndefined();
+		userInfoLayout.addComponents(usernameLbl, nameLbl, balanceLbl);
+
 		if (user.getLastLogin() != null) {
-			userInfo.addComponent(new Label("Last login: " + formatter.format(user.getLastLogin().getTime())));
+			Label lastLoginLbl = new Label("Last login: " + formatter.format(user.getLastLogin().getTime()));
+			lastLoginLbl.setSizeUndefined();
+			userInfoLayout.addComponent(lastLoginLbl);
 		}
-		
-		userInfo.addComponent(new Label("Account balance: " + loggedInAccount.getBalance()));
 
-		return userInfo;
-	}
-
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
+		return userInfoLayout;
 	}
 
 }

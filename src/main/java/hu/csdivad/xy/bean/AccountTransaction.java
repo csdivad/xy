@@ -39,6 +39,16 @@ public class AccountTransaction implements Serializable {
 	@Column(name = "amount", nullable = false)
 	private int amount;
 
+	public AccountTransaction() {
+	}
+
+	public AccountTransaction(Account senderAccount, Account recipientAccount, Calendar transactionTime, int amount) {
+		this.senderAccount = senderAccount;
+		this.recipientAccount = recipientAccount;
+		this.transactionTime = transactionTime;
+		this.amount = amount;
+	}
+
 	public int getTransactionId() {
 		return transactionId;
 	}

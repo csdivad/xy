@@ -27,6 +27,7 @@ import hu.csdivad.xy.spring.security.XyWebAuthenticationDetails;
 import hu.csdivad.xy.vaadin.XySystemMessageProvider;
 import hu.csdivad.xy.vaadin.view.AccountDetailsView;
 import hu.csdivad.xy.vaadin.view.AccountHistoryView;
+import hu.csdivad.xy.vaadin.view.InitiateTransactionView;
 
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -69,10 +70,11 @@ public class MainUI extends UI {
 		leftMenu.setWidth("100%");
 		leftMenu.setHeightUndefined();
 
-		MenuBar.MenuItem accountMenu = leftMenu.addItem("Account", null);
-		accountMenu.addItem("Account details", (item) -> navigator.navigateTo(AccountDetailsView.VIEW_NAME));
-		accountMenu.addItem("Transaction history", (item) -> navigator.navigateTo(AccountHistoryView.VIEW_NAME));
-
+		MenuBar.MenuItem accountMenu = leftMenu.addItem("Számla", null);
+		accountMenu.addItem("Számla részletek", (item) -> navigator.navigateTo(AccountDetailsView.VIEW_NAME));
+		accountMenu.addItem("Számlatörténet", (item) -> navigator.navigateTo(AccountHistoryView.VIEW_NAME));
+		accountMenu.addItem("Utalás", (item) -> navigator.navigateTo(InitiateTransactionView.VIEW_NAME));
+		
 		MenuBar rightMenu = new MenuBar();
 		rightMenu.addItem("Logout", (item) -> logout());
 

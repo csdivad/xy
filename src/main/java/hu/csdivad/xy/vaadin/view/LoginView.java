@@ -14,7 +14,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
@@ -22,6 +21,8 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import hu.csdivad.xy.dao.UserDao;
+import hu.csdivad.xy.spring.security.exception.AccountNotBelongToUserException;
+import hu.csdivad.xy.spring.security.exception.MissingAccountNumberException;
 
 @SpringView(name = LoginView.VIEW_NAME)
 public class LoginView extends LoginForm implements View {
@@ -29,8 +30,7 @@ public class LoginView extends LoginForm implements View {
 
 	@Autowired
 	private UserDao userDao;
-	private CheckBox safeBrowser = new CheckBox("This is a private computer");
-	private TextField accountNumber = new TextField("Account number");
+	private TextField accountNumberField = new TextField("Account number");
 
 	@Override
 	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {	
@@ -38,7 +38,7 @@ public class LoginView extends LoginForm implements View {
 		VerticalLayout pageLayout = new VerticalLayout();
 		pageLayout.setWidth("100%");
 		Component loginDetailsForm = createLoginDetailsForm(userNameField, passwordField, loginButton);
-		Component maintenanceMsg = createMainenanceMsg();
+		Component maintenanceMsg = createAdditionalMsgs();
 		pageLayout.addComponent(maintenanceMsg);
 		pageLayout.addComponent(loginDetailsForm);
 		pageLayout.setComponentAlignment(maintenanceMsg, Alignment.MIDDLE_CENTER);
@@ -55,7 +55,7 @@ public class LoginView extends LoginForm implements View {
 		sender.setFormMethod(Method.POST);
 		sender.addValue("username", userName);
 		sender.addValue("password", password);
-		sender.addValue("account-number", accountNumber.getValue());
+		sender.addValue("account-number", accountNumberField.getValue());
 		sender.setFormTarget("_top");
 		sender.extend(getUI());
 		sender.submit();
@@ -69,28 +69,28 @@ public class LoginView extends LoginForm implements View {
 		loginDetailsForm.setSizeUndefined();
 
 		username.setIcon(FontAwesome.USER);
-		username.addValidator(new NullValidator("Missing username", false));
+		username.addValidator(new NullValidator("Hiányzó ügyfélazonosító", false));
 		password.setIcon(FontAwesome.LOCK);
-		password.addValidator(new NullValidator("Missing password", false));
-		accountNumber.setIcon(FontAwesome.BOOK);
-		accountNumber.addValidator(new NullValidator("Missing account number", false));
+		password.addValidator(new NullValidator("Hiányzó jelszó", false));
+		accountNumberField.setIcon(FontAwesome.BOOK);
+		accountNumberField.addValidator(new NullValidator("Hiányzó számlaszám", false));
 		
-		loginDetailsForm.addComponent(username);
-		loginDetailsForm.addComponent(password);
-		loginDetailsForm.addComponent(accountNumber);
-		loginDetailsForm.addComponent(safeBrowser);
-		loginDetailsForm.addComponent(login);
+		loginDetailsForm.addComponents(username, password, accountNumberField, login);
 		return loginDetailsForm;
 	}
 
-	private Component createMainenanceMsg() {
-		VerticalLayout layout = new VerticalLayout();
+	private Component createAdditionalMsgs() {
+		VerticalLayout msgLayout = new VerticalLayout();
+		
 		Object springException = getUI().getSession().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
 		if (springException instanceof org.springframework.security.authentication.BadCredentialsException) {
-			layout.addComponent(new Label(Objects.toString("Bad credentials!")));
+			msgLayout.addComponent(new Label("Hibás ügyfélazonosító vagy jelszó!"));
 		}
-		layout.setSizeUndefined();
-		return layout;
+		if (springException instanceof AccountNotBelongToUserException || springException instanceof MissingAccountNumberException) {
+			msgLayout.addComponent(new Label("Hibás számlaszám!"));
+		}
+		msgLayout.setSizeUndefined();
+		return msgLayout;
 	}
 
 	public UserDao getUserDao() {

@@ -25,7 +25,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Table;
 
-//TODO VerticalLayout vs CustomComponent+setCompositonRoot
 @SpringView(name = AccountHistoryView.VIEW_NAME)
 public class AccountHistoryView extends VerticalLayout implements View {
 	public static final String VIEW_NAME = "account-history";
@@ -35,7 +34,8 @@ public class AccountHistoryView extends VerticalLayout implements View {
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public AccountHistoryView() {
-		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		setSizeFull();
+		setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 	}
 
 	@Override
@@ -45,11 +45,11 @@ public class AccountHistoryView extends VerticalLayout implements View {
 	}
 	
 	private Component createTranscationHistory() {		
-		Table table = new Table("Transaction history");
-		table.addContainerProperty("Sender Account ID", Integer.class, null);
-		table.addContainerProperty("Recipient Account ID", Integer.class, null);
-		table.addContainerProperty("Amount", Integer.class, null);
-		table.addContainerProperty("Transaction time", Label.class, null);
+		Table table = new Table("Számlatörténet");
+		table.addContainerProperty("Küldő számlaszáma", Integer.class, null);
+		table.addContainerProperty("Fogadó számlaszáma", Integer.class, null);
+		table.addContainerProperty("Összeg", Integer.class, null);
+		table.addContainerProperty("Utalás ideje", Label.class, null);
 
 		List<AccountTransaction> transactions = new ArrayList<>();
 
