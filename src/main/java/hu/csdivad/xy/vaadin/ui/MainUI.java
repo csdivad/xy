@@ -34,7 +34,6 @@ import com.vaadin.ui.VerticalLayout;
 
 @Theme("mytheme")
 @SpringUI(path = "/netbank")
-@PreserveOnRefresh
 public class MainUI extends UI {
 
 	@Autowired

@@ -4,6 +4,10 @@ import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.validator.NullValidator;
@@ -15,6 +19,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -36,15 +41,18 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 	@Autowired
 	private Account loggedInAccount;
 	@Autowired
-	private User user;
+	private SessionFactory sessionFactory;
 	private TextField recipientAccountIdField = new TextField("Kedvezményezett számlaszáma");
 	private TextField amountField = new TextField("Átutatlás összege");
 	private Button beginTransferButton = new Button("Indítás");
+	private FormLayout formLayout = new FormLayout();
 
 	public InitiateTransactionView() {
 		recipientAccountIdField.addValidator(new NullValidator("A kedvezményezett számlaszáma hiányzik", false));
 		amountField.addValidator(new NullValidator("Az átutalás összege hiányzik", false));
+		setSizeFull();
 		setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		addComponent(formLayout);
 	}
 
 	@PostConstruct
@@ -54,34 +62,56 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		removeAllComponents();
-		addComponents(recipientAccountIdField, amountField, beginTransferButton);
-
+		formLayout.removeAllComponents();
+		formLayout.addComponents(recipientAccountIdField, amountField, beginTransferButton);
+		formLayout.setWidthUndefined();
 	}
 
 	@Override
 	public void buttonClick(ClickEvent event) {
-		try {
-			int amount = Integer.parseInt(amountField.getValue());
-			int newBalance = loggedInAccount.getBalance() - amount;
-			if(newBalance<0) {
-				Notification.show("Nincs elég pénz a számláján");
-				return;
-			}
-			Account recipientAccount = accountDao.findAccountById(Integer.parseInt(recipientAccountIdField.getValue()));
-			AccountTransaction accountTransaction = new AccountTransaction(loggedInAccount, recipientAccount, Calendar.getInstance(), amount);
-			
-			loggedInAccount.setBalance(newBalance);
-			recipientAccount.setBalance(recipientAccount.getBalance() + amount);
-			accountDao.updateAccount(loggedInAccount);
-			accountDao.updateAccount(recipientAccount);
-			accountTransactionDao.saveTransaction(accountTransaction);
+		int amount = Integer.parseInt(amountField.getValue());
+		Account recipientAccount = accountDao.findAccountById(Integer.parseInt(recipientAccountIdField.getValue()));
+		if (loggedInAccount.equals(recipientAccount)) {
+			Notification.show("A célszámla megegyezik az ön jelenlegi számlájával!");
+			return;
+		}
+
+		if (doTransaction(loggedInAccount, recipientAccount, amount)) {
 			Notification.show("Sikeres tranzakció");
 			getUI().getNavigator().navigateTo(AccountDetailsView.VIEW_NAME);
-		} catch (NumberFormatException ex) {
-			
+		} else {
+			Notification.show("Sikertelen tranzakció");
+		}
+	}
+
+	public boolean doTransaction(Account from, Account to, int amount) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			int newBalance = from.getBalance() - amount;
+			if (newBalance < 0) {
+				Notification.show("Nincs elég pénz a számlán");
+				return false;
+			}
+			AccountTransaction accountTransaction = new AccountTransaction(from, to, Calendar.getInstance(), amount);
+			from.setBalance(newBalance);
+			to.setBalance(to.getBalance() + amount);
+			accountDao.updateAccount(from);
+			if (1 == 1)
+				throw new Exception();
+			accountDao.updateAccount(to);
+			accountTransactionDao.saveTransaction(accountTransaction);
+			transaction.commit();
+			return true;
 		} catch (Exception ex) {
-			
+			ex.printStackTrace();
+			transaction.rollback();
+			return false;
+		} finally {
+			if (transaction.getStatus() == TransactionStatus.ACTIVE) {
+				transaction.rollback();
+			}
+			session.close();
 		}
 	}
 

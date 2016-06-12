@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.spring.annotation.EnableVaadin;
@@ -60,7 +61,7 @@ public class AppConfig {
 	}
 
 	@Bean
-	@UIScope
+	@Scope("prototype")
 	public Account getLoggedInAccountFromContext() throws SessionIsNotAuthenticatedException {
 		try {
 			return accountDao.findAccountById(
