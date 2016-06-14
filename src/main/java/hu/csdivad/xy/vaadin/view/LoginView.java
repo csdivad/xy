@@ -1,6 +1,5 @@
 package hu.csdivad.xy.vaadin.view;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
 
@@ -18,7 +17,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import hu.csdivad.xy.dao.UserDao;
 import hu.csdivad.xy.spring.security.exception.AccountNotBelongToUserException;
 import hu.csdivad.xy.spring.security.exception.MissingAccountNumberException;
 
@@ -27,8 +25,6 @@ public class LoginView extends LoginForm implements View {
 	private static final long serialVersionUID = 2992502147074865800L;
 	public static final String VIEW_NAME = "login";
 
-	@Autowired
-	private UserDao userDao;
 	private TextField accountNumberField = new TextField();
 
 	@Override
@@ -96,14 +92,6 @@ public class LoginView extends LoginForm implements View {
 		}
 		msgLayout.setSizeUndefined();
 		return msgLayout;
-	}
-
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
 	}
 
 	@Override

@@ -22,12 +22,4 @@ public class XyUserDetailsService implements UserDetailsService {
 		return user;
 	}
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
-
 }
