@@ -17,10 +17,11 @@ import hu.csdivad.xy.dao.AccountDao;
 
 @Repository("firstAccountDaoImpl")
 public class AccountDaoImpl implements AccountDao {
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Account> listAll() {
 		Session session = sessionFactory.openSession();
@@ -31,7 +32,8 @@ public class AccountDaoImpl implements AccountDao {
 		session.close();
 		return accounts;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Account> listAccountsByUser(User user) {
 		Session session = sessionFactory.openSession();
@@ -52,7 +54,7 @@ public class AccountDaoImpl implements AccountDao {
 		Criteria crit = session.createCriteria(Account.class);
 		Criterion userCrit = Restrictions.idEq(id);
 		crit.add(userCrit);
-		Account account = (Account)crit.uniqueResult();
+		Account account = (Account) crit.uniqueResult();
 		transaction.commit();
 		session.close();
 		return account;
@@ -73,7 +75,7 @@ public class AccountDaoImpl implements AccountDao {
 		Transaction transaction = session.beginTransaction();
 		session.save(account);
 		transaction.commit();
-		session.close();		
+		session.close();
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class AccountDaoImpl implements AccountDao {
 		Transaction transaction = session.beginTransaction();
 		session.delete(account);
 		transaction.commit();
-		session.close();		
+		session.close();
 	}
 
 }

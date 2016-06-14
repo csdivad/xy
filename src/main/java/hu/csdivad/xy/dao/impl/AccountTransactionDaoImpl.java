@@ -22,6 +22,7 @@ public class AccountTransactionDaoImpl implements AccountTransactionDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<AccountTransaction> listAll() {
 		Session session = sessionFactory.openSession();

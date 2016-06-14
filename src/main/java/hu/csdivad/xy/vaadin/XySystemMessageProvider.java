@@ -6,6 +6,8 @@ import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
 
 public class XySystemMessageProvider implements SystemMessagesProvider {
+	private static final long serialVersionUID = -3076599677717554088L;
+
 	@Override
 	public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
 		CustomizedSystemMessages msgs = new CustomizedSystemMessages();

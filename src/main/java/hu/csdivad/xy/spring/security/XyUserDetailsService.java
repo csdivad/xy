@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import hu.csdivad.xy.dao.UserDao;
 
@@ -19,10 +18,10 @@ public class XyUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("Username not found: " + username);
 		}
-		
+
 		return user;
 	}
-	
+
 	public UserDao getUserDao() {
 		return userDao;
 	}

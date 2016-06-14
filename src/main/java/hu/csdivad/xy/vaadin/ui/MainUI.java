@@ -3,27 +3,21 @@ package hu.csdivad.xy.vaadin.ui;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 
-import hu.csdivad.xy.bean.Account;
 import hu.csdivad.xy.bean.User;
-import hu.csdivad.xy.dao.AccountDao;
 import hu.csdivad.xy.dao.UserDao;
-import hu.csdivad.xy.spring.security.XyWebAuthenticationDetails;
 import hu.csdivad.xy.vaadin.XySystemMessageProvider;
 import hu.csdivad.xy.vaadin.view.AccountDetailsView;
 import hu.csdivad.xy.vaadin.view.AccountHistoryView;
@@ -35,6 +29,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 @SpringUI(path = "/netbank")
 public class MainUI extends UI {
+	private static final long serialVersionUID = 3290011935125139335L;
 
 	@Autowired
 	private SpringViewProvider viewProvider;
@@ -73,7 +68,7 @@ public class MainUI extends UI {
 		accountMenu.addItem("Számla részletek", (item) -> navigator.navigateTo(AccountDetailsView.VIEW_NAME));
 		accountMenu.addItem("Számlatörténet", (item) -> navigator.navigateTo(AccountHistoryView.VIEW_NAME));
 		accountMenu.addItem("Utalás", (item) -> navigator.navigateTo(InitiateTransactionView.VIEW_NAME));
-		
+
 		MenuBar rightMenu = new MenuBar();
 		rightMenu.addItem("Logout", (item) -> logout());
 

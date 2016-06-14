@@ -16,7 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "user_roles", uniqueConstraints = @UniqueConstraint(columnNames = { "role", "username" }))
 public class UserRole implements GrantedAuthority {
-	
+	private static final long serialVersionUID = 3087198900166973494L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_role_id", unique = true, nullable = false)

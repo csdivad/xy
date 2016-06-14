@@ -1,7 +1,5 @@
 package hu.csdivad.xy.vaadin.view;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.risto.formsender.FormSender;
 import org.vaadin.risto.formsender.widgetset.client.shared.Method;
@@ -26,6 +24,7 @@ import hu.csdivad.xy.spring.security.exception.MissingAccountNumberException;
 
 @SpringView(name = LoginView.VIEW_NAME)
 public class LoginView extends LoginForm implements View {
+	private static final long serialVersionUID = 2992502147074865800L;
 	public static final String VIEW_NAME = "login";
 
 	@Autowired

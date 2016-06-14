@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "user_details")
 public class UserDetails implements Serializable {
+	private static final long serialVersionUID = 422944493712985091L;
 
 	@Id
 	@OneToOne(fetch = FetchType.LAZY)

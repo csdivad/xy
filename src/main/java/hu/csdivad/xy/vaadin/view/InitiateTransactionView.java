@@ -4,10 +4,6 @@ import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.validator.NullValidator;
@@ -24,14 +20,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import hu.csdivad.xy.bean.Account;
-import hu.csdivad.xy.bean.AccountTransaction;
-import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.AccountDao;
 import hu.csdivad.xy.dao.AccountTransactionDao;
-import hu.csdivad.xy.dao.UserDao;
 
 @SpringView(name = InitiateTransactionView.VIEW_NAME)
 public class InitiateTransactionView extends VerticalLayout implements View, ClickListener {
+	private static final long serialVersionUID = -6939927305165688758L;
 	public static final String VIEW_NAME = "initiate-transaction";
 
 	@Autowired
@@ -88,7 +82,7 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 			Notification.show("Nincs elég pénz a számlán");
 			return false;
 		}
-		
+
 		return accountTransactionDao.moneyTransfer(from, to, amount, Calendar.getInstance());
 	}
 }
