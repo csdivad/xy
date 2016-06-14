@@ -40,8 +40,6 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 	private AccountDao accountDao;
 	@Autowired
 	private Account loggedInAccount;
-	@Autowired
-	private SessionFactory sessionFactory;
 	private TextField recipientAccountIdField = new TextField("Kedvezményezett számlaszáma");
 	private TextField amountField = new TextField("Átutatlás összege");
 	private Button beginTransferButton = new Button("Indítás");
@@ -85,34 +83,12 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 	}
 
 	public boolean doTransaction(Account from, Account to, int amount) {
-		Session session = sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			int newBalance = from.getBalance() - amount;
-			if (newBalance < 0) {
-				Notification.show("Nincs elég pénz a számlán");
-				return false;
-			}
-			AccountTransaction accountTransaction = new AccountTransaction(from, to, Calendar.getInstance(), amount);
-			from.setBalance(newBalance);
-			to.setBalance(to.getBalance() + amount);
-			accountDao.updateAccount(from);
-			if (1 == 1)
-				throw new Exception();
-			accountDao.updateAccount(to);
-			accountTransactionDao.saveTransaction(accountTransaction);
-			transaction.commit();
-			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			transaction.rollback();
+		int newBalance = from.getBalance() - amount;
+		if (newBalance < 0) {
+			Notification.show("Nincs elég pénz a számlán");
 			return false;
-		} finally {
-			if (transaction.getStatus() == TransactionStatus.ACTIVE) {
-				transaction.rollback();
-			}
-			session.close();
 		}
+		
+		return accountTransactionDao.moneyTransfer(from, to, amount, Calendar.getInstance());
 	}
-
 }

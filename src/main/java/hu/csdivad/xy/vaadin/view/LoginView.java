@@ -30,10 +30,10 @@ public class LoginView extends LoginForm implements View {
 
 	@Autowired
 	private UserDao userDao;
-	private TextField accountNumberField = new TextField("Account number");
+	private TextField accountNumberField = new TextField();
 
 	@Override
-	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {	
+	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
 		setSizeFull();
 		VerticalLayout pageLayout = new VerticalLayout();
 		pageLayout.setWidth("100%");
@@ -68,25 +68,31 @@ public class LoginView extends LoginForm implements View {
 		loginDetailsForm.setMargin(true);
 		loginDetailsForm.setSizeUndefined();
 
+		username.setCaption("Ügyfélazonosító");
 		username.setIcon(FontAwesome.USER);
 		username.addValidator(new NullValidator("Hiányzó ügyfélazonosító", false));
+
+		password.setCaption("Jelszó");
 		password.setIcon(FontAwesome.LOCK);
 		password.addValidator(new NullValidator("Hiányzó jelszó", false));
+
+		accountNumberField.setCaption("Számlaszám");
 		accountNumberField.setIcon(FontAwesome.BOOK);
 		accountNumberField.addValidator(new NullValidator("Hiányzó számlaszám", false));
-		
+
 		loginDetailsForm.addComponents(username, password, accountNumberField, login);
 		return loginDetailsForm;
 	}
 
 	private Component createAdditionalMsgs() {
 		VerticalLayout msgLayout = new VerticalLayout();
-		
+
 		Object springException = getUI().getSession().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
 		if (springException instanceof org.springframework.security.authentication.BadCredentialsException) {
 			msgLayout.addComponent(new Label("Hibás ügyfélazonosító vagy jelszó!"));
 		}
-		if (springException instanceof AccountNotBelongToUserException || springException instanceof MissingAccountNumberException) {
+		if (springException instanceof AccountNotBelongToUserException
+				|| springException instanceof MissingAccountNumberException) {
 			msgLayout.addComponent(new Label("Hibás számlaszám!"));
 		}
 		msgLayout.setSizeUndefined();

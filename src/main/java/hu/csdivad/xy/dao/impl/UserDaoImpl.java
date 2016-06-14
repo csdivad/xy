@@ -10,7 +10,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import hu.csdivad.xy.bean.User;
 import hu.csdivad.xy.dao.UserDao;
