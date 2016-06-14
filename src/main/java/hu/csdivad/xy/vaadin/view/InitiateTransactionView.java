@@ -13,6 +13,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
@@ -72,14 +73,14 @@ public class InitiateTransactionView extends VerticalLayout implements View, Cli
 			Notification.show("Sikeres tranzakció");
 			getUI().getNavigator().navigateTo(AccountDetailsView.VIEW_NAME);
 		} else {
-			Notification.show("Sikertelen tranzakció");
+			Notification.show("Sikertelen tranzakció", Type.ERROR_MESSAGE);
 		}
 	}
 
 	public boolean doTransaction(Account from, Account to, int amount) {
 		int newBalance = from.getBalance() - amount;
 		if (newBalance < 0) {
-			Notification.show("Nincs elég pénz a számlán");
+			Notification.show("Nincs elég pénz a számlán", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 
